@@ -38,6 +38,7 @@ entity SPI_INT is
            cs : out STD_LOGIC;
            MOSI : out STD_LOGIC;
            ask : out STD_LOGIC);
+ --          led : out std_logic);
 end SPI_INT;
 
 architecture Behavioral of SPI_INT is
@@ -56,12 +57,17 @@ signal sclk_intern :STD_LOGIC :='0'; --clk_out
 signal mosi_intern : std_logic :='0';
 
 signal ask_intern : std_logic :='1';
+signal data_rdy : std_logic := '0';
 
 begin
+     
      comp_send <= reg & data_in; -- complete message
      sendword : process(clk)
      begin
      if rising_edge(clk) then
+     if data_in /= "0000000000000000" then
+        data_rdy<='1';
+     end if;
             case state is
                 when idle=>
                     cs_intern<='1';
@@ -111,6 +117,7 @@ begin
     ask <= ask_intern;
     cs <= cs_intern;
     sclk <= sclk_intern;
-    mosi <= mosi_intern;     
+    mosi <= mosi_intern; 
+ --   led <= data_rdy;    
 end Behavioral;
 
