@@ -80,7 +80,9 @@ begin
                     else
                         kHz1counter <= kHz1counter + 1;    --wait 12000 * clk period
                     end if;
-                        
+-- Beim Ersten Zustand Idle ist der Chip Select auf 1 gesetzt und Serial Clock auf 0 gesetzt.
+-- In diesem Zustand erhöht sich zeitlich den Wert von Variable kHz1counter bis 1 kHz.
+-- Danach kann der Zustand auf Start ändern.
                 when start =>
                     
                     cs_intern <='0';
@@ -88,7 +90,9 @@ begin
                     mosi_intern <= comp_send(15);
                     state <= transfer;
                     ask_intern <= '0';
-                    
+-- Beim Ersten Zustand Idle ist der Chip Select auf 1 gesetzt und Serial Clock auf 0 gesetzt.
+-- In diesem Zustand erhöht sich zeitlich den Wert von Variable kHz1counter bis 1 kHz.
+-- Danach kann der Zustand auf Start ändern.                    
                 when transfer =>
                     if(sclk_intern = '0') then
                         sclk_intern<='1';
